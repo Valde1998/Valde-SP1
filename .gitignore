@@ -1,10 +1,76 @@
-.DS_Store
-applet
-application.linux-arm64
-application.linux-armv6hf
-application.linux32
-application.linux64
-application.windows32
-application.windows64
-application.macosx
-out
+float ballBig = 15;
+int food = 0; 
+float x = 250;
+float y = 250;
+int numberOfFood = 100;
+ArrayList<Particle> cake = new ArrayList();
+
+
+void setup() {
+  size(500,500);
+  // loop that creat 100 random(x,y) objects in my array. 
+  for(int i=0; i < numberOfFood; i++) {
+    Particle P = new Particle((int)random(width), (int)random(height));
+    cake.add(P);
+  }
+}
+
+void draw() {
+  background(255);
+  textAlign(CENTER);
+  textSize(40);
+  fill(0);
+  text("Food" + food, width/2, 30);
+  fill(250 , 204, 0); //yellow
+ ellipse(x,y,ballBig,ballBig);
+
+ // loop that draws and deletes objects from the array and counts points after the ball has eaten the cakes. 
+ for(int i =0; i < cake.size();i++) {
+   Particle Pn = (Particle) cake.get(i);
+   // draws the objekts
+   Pn.display();
+    // deletes after the ball hit.
+   if (dist(x, y, Pn.x, Pn.y)<ballBig) {
+     cake.remove(i); 
+    //counter
+     food++; 
+    //Ball gets bigger after eating the cakes.
+     ballBig += 0.5; 
+ }
+ }
+ }
+
+
+
+//  method of moving my (x,y).
+void keyPressed() {
+ 
+    if (keyCode == LEFT) {
+      x -= 10;
+    }
+    else if (keyCode == RIGHT) {
+      x += 10;
+    }
+    else if (keyCode == UP){
+      y -= 10;
+    }
+    else if (keyCode == DOWN)
+    y += 10;
+  }
+
+
+
+
+class Particle {
+  int x, y;
+  //  constructor.
+  Particle(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+  void display(){
+  noStroke();
+ fill(50,150,50); //green
+  ellipse(x, y, 5, 5);
+}
+}
